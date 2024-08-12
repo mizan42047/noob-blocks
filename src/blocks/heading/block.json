@@ -7,6 +7,39 @@
 	"category": "widgets",
 	"description": "Heading block for your webpages.",
 	"example": {},
+	"attributes": {
+		"blockClass": {
+			"type": "string"
+		},
+		"blockStyle": {
+			"type": "string"
+		},
+		"content": {
+			"type": "string"
+		},
+		"htmlTag": {
+			"type": "string",
+			"default": "h2"
+		},
+		"alignment": {
+			"type": "string"
+		},
+		"textColor": {
+			"type": "string"
+		},
+		"typography": {
+			"type": "object"
+		},
+		"textStroke": {
+			"type": "object"
+		},
+		"textShadow": {
+			"type": "object"
+		},
+		"blendMode": {
+			"type": "string"
+		}
+	},
 	"supports": {
 		"html": false,
 		"anchor": true,

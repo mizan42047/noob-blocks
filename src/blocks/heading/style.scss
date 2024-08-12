@@ -1,12 +1,8 @@
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
- */
-
-.wp-block-create-block-noob-blocks {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+.noob-blocks-heading {
+	text-align: var(--heading-text-align, left);
+	.noob-blocks-heading-text {
+		color: var(--heading-text-color, #000);
+		font-family: var(--heading-font-family, sans-serif);
+		font-size: var(--heading-font-size, 24px);
+	}
 }

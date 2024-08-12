@@ -30,7 +30,6 @@ function noob_blocks_register_blocks()
 	if (!empty($blocks)) {
 		foreach ($blocks as $key => $block) {
 			$blocks_dir = trailingslashit(plugin_dir_path(__FILE__)) . 'build/blocks/' . $key;
-			error_log(print_r( $blocks_dir,true ));
 			if (!file_exists($blocks_dir)) continue;
 			register_block_type($blocks_dir);
 		}
