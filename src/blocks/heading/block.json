@@ -21,7 +21,13 @@
 			"type": "string",
 			"default": "h2"
 		},
-		"alignment": {
+		"alignmentDesktop": {
+			"type": "string"
+		},
+		"alignmentTablet": {
+			"type": "string"
+		},
+		"alignmentMobile": {
 			"type": "string"
 		},
 		"textColor": {

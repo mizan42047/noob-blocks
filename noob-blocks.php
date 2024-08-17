@@ -32,6 +32,7 @@ function noob_blocks_register_blocks()
 			$blocks_dir = trailingslashit(plugin_dir_path(__FILE__)) . 'build/blocks/' . $key;
 			if (!file_exists($blocks_dir)) continue;
 			register_block_type($blocks_dir);
+			wp_set_script_translations( "noob-blocks-$key-editor-script", 'noob-blocks', plugin_dir_path(__FILE__) . '/languages' );
 		}
 	}
 }

@@ -19,14 +19,23 @@ import { alignLeft, alignRight, alignCenter, edit } from '@wordpress/icons';
 import { useSelect } from '@wordpress/data';
 import { useEffect, useRef } from '@wordpress/element';
 import style from './style';
+import Responsive from '../../componets/responsive';
 
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const blockProps = useBlockProps({
 		className: classNames('noob-blocks-heading', attributes?.blockClass),
 	});
 
+	const { device } = useSelect((select) => {
+        const { getDeviceType } = select('core/editor');
+        return {
+            device: getDeviceType(),
+        }
+    }, []);
+	
+
 	const { fontFamilies } = useSelect((select) => {
-		const { theme, custom } = select('core/block-editor').getSettings()?.__experimentalFeatures?.typography?.fontFamilies || {};
+		const { theme, custom = [] } = select('core/block-editor').getSettings()?.__experimentalFeatures?.typography?.fontFamilies || {};
 		return {
 			fontFamilies: [...theme, ...custom]
 		}
@@ -40,12 +49,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	const fontSizes = [
 		{
-			name: __( 'Small' ),
+			name: __('Small'),
 			slug: 'small',
 			size: 12,
 		},
 		{
-			name: __( 'Big' ),
+			name: __('Big'),
 			slug: 'big',
 			size: 26,
 		},
@@ -54,12 +63,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	const oldAttributes = useRef(attributes);
 
 	useEffect(() => {
-		const hash = clientId?.slice(-6); 
-		if(!attributes?.blockClass){
+		const hash = clientId?.slice(-6);
+		if (!attributes?.blockClass) {
 			setAttributes({ blockClass: `noob${hash}` });
 		}
-		
-		if(attributes?.blockClass && JSON.stringify(attributes) !== JSON.stringify(oldAttributes.current)){
+
+		if (attributes?.blockClass && JSON.stringify(attributes) !== JSON.stringify(oldAttributes.current)) {
 			setAttributes({ blockClass: `noob${hash}` });
 			oldAttributes.current = attributes;
 		}
@@ -70,7 +79,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		const blockStyle = style(attributes);
 		setAttributes({ blockStyle });
 	}, [JSON.stringify(attributes), clientId]);
-	
+
 
 	return (
 		<>
@@ -114,19 +123,23 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 									return (
 										<>
 											<PanelBody title={__('Heading', 'noob-blocks')}>
-												<ToggleGroupControl
-													label={__('Alignment', 'noob-blocks')}
-													value={attributes?.alignment}
-													isBlock
-													__nextHasNoMarginBottom
-													isDeselectable
-													className="noob-blocks-tooggle-group"
-													onChange={(value) => setAttributes({ alignment: value })}
-												>
-													<ToggleGroupControlOption value='left' label={alignLeft} aria-label={__('Left', 'noob-blocks')} />
-													<ToggleGroupControlOption value="center" label={alignCenter} aria-label={__('Center', 'noob-blocks')} />
-													<ToggleGroupControlOption value="right" label={alignRight} aria-label={__('Right', 'noob-blocks')} />
-												</ToggleGroupControl>
+												<Responsive>
+													<ToggleGroupControl
+														label={__('Alignment', 'noob-blocks')}
+														value={attributes[`alignment${device}`]}
+														isBlock
+														__nextHasNoMarginBottom
+														isDeselectable
+														className="noob-blocks-tooggle-group"
+														onChange={(value) => {
+															setAttributes({ [`alignment${device}`]: value });
+														}}
+													>
+														<ToggleGroupControlOption value='left' label={alignLeft} aria-label={__('Left', 'noob-blocks')} />
+														<ToggleGroupControlOption value="center" label={alignCenter} aria-label={__('Center', 'noob-blocks')} />
+														<ToggleGroupControlOption value="right" label={alignRight} aria-label={__('Right', 'noob-blocks')} />
+													</ToggleGroupControl>
+												</Responsive>
 												<ColorPalette
 													__experimentalIsRenderedInSidebar
 													asButtons={true}
@@ -174,7 +187,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 																	onChange={(newFontSize) => {
 																		setAttributes({ typography: { ...attributes?.typography, fontSize: newFontSize } });
 																	}}
-																	units={[ 'px', 'em', 'rem' ]}
+																	units={['px', 'em', 'rem']}
 																	withSlider={true}
 																/>
 															</div>

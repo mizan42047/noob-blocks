@@ -12,3 +12,19 @@
 		min-width: 250px;
 	}
 }
+
+.noob-blocks-responsive{
+	position: relative;
+
+	.components-dropdown-menu__toggle{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 20px !important;
+		min-width: fit-content !important;
+		height: 20px !important;
+		padding: 0 !important;
+		top: 15px;
+		left: 65px;
+	}
+}
