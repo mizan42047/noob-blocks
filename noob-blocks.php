@@ -37,3 +37,32 @@ function noob_blocks_register_blocks()
 	}
 }
 add_action('init', 'noob_blocks_register_blocks');
+function noob_blocks_editor_assets(){
+	$editor_assets_path = trailingslashit(plugin_dir_path(__FILE__)) . 'build/modules/index.asset.php';
+	if(file_exists($editor_assets_path)){
+		$editor_assets = include $editor_assets_path;
+		wp_enqueue_script('noob-blocks-module-editor-script', plugin_dir_url(__FILE__) . 'build/modules/index.js', $editor_assets['dependencies'], $editor_assets['version'], true);
+	}
+}
+add_action("enqueue_block_editor_assets", "noob_blocks_editor_assets");
+function noob_blocks_asset_loader(){
+	$dependency_path  = trailingslashit(plugin_dir_path(__FILE__)) . 'build/modules/index.asset.php';
+	if(file_exists($dependency_path)){
+		$dependency = include $dependency_path;
+		wp_enqueue_style('noob-blocks-module-style', plugin_dir_url(__FILE__) . 'build/modules/style-index.css', [], $dependency['version']);
+	}
+}
+add_action('enqueue_block_assets', "noob_blocks_asset_loader");
+function noob_blocks_render($block_content, $block) {
+	if (isset($block['blockName']) && str_contains($block['blockName'], 'noob-blocks/')) {
+		$tags = new WP_HTML_Tag_Processor( $block_content );
+		$tags->next_tag('div');
+		$tags->add_class( 'noob-blocks' );
+		$tags->get_updated_html();
+		$module_style = !empty($block['attrs']['moduleStyle']) ? $block['attrs']['moduleStyle'] : '';
+		return sprintf("<style>%1s</style> %2s", $module_style, $tags);
+	}
+
+	return $block_content;
+}
+add_filter( 'render_block', 'noob_blocks_render', 10, 2 );

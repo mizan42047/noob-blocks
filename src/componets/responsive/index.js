@@ -20,7 +20,7 @@ const Responsive = (props) => {
     }
 
     return (
-        <div class="noob-blocks-responsive">
+        <div className="noob-blocks-responsive">
             <DropdownMenu
                 icon={deviceIcon}
                 controls={[

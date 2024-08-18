@@ -20,6 +20,7 @@ import { useSelect } from '@wordpress/data';
 import { useEffect, useRef } from '@wordpress/element';
 import style from './style';
 import Responsive from '../../componets/responsive';
+import Advanced from './advanced';
 
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const blockProps = useBlockProps({
@@ -93,6 +94,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						{
 							name: 'style',
 							title: __('Style', 'noob-blocks'),
+						},
+						{
+							name: 'advanced',
+							title: __('Advanced', 'noob-blocks'),
 						}
 					]}
 				>
@@ -196,6 +201,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 												/>
 											</PanelBody>
 										</>
+									)
+								case 'advanced':
+									return (
+										<Advanced attributes={attributes} setAttributes={setAttributes} clientId={clientId}></Advanced>
 									)
 							}
 						}
